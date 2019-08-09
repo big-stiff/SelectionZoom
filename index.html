@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            height: 2000px;
+        }
+        
+        textarea {
+            display: block;
+            width: 600px;
+            height: 300px;
+            margin: 100px auto;
+            resize: none;
+            text-align: center;
+            padding: 50px 0;
+        }
+        
+        textarea::selection {
+            background-color: yellow;
+        }
+        
+        .pop {
+            width: 100px;
+            background-color: #ccc;
+            padding: 5px;
+            font: normal 14px/24px "MicrosoftYaHei";
+        }
+        
+        div {
+            text-align: center;
+            padding-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <p>选择textarea区域文字跟随鼠标放大功能</p>
+        <p>兼容IE8以下浏览器</p>
+        <textarea id='txtarea'>
+《以棍之名》
+哟，钻一的韩服，小猴死中路，峡谷中有雾，棍在低诉。
+无奈的觉悟，只能更残酷，一切都为了 通往大师的路。
+0层杀人书，打野三狼住，棍轻柔踱步，15，还来不及哭打野的亲马就失去温度。
+打野每个人都有罪，犯着不同的罪，棍能决定谁对，谁马该要沉睡。
+争论不能解决，在晋级赛的夜，关掉你的嘴，唯一的恩惠。
+后排的小兵全都有罪，Qcd的刀妹，以棍之名判决，这感觉没有适合词汇。
+就像边笑边掉的泪，凝视着屏幕变黑，阻挡癌症蔓延的退役会让我沉醉。
+低头刷完这组石头，换取马复活的承诺，老旧铜唢呐在角落，嘟嘟嘟嘟嘟嘟伴奏。
+太空舱内烟雾飘动，阳光无言的穿透，撒向那只被禁言的卡比兽。
+离谱的喊叫离谱的喊叫电母开始发酵，弹幕对着棍嘲笑，回忆逐渐延烧，万猪拱塔的画面，残忍温柔的出现，猎马时间到，我们一起来祷告。
+棍我真龙，我已坠入，癌症晚期的国度，请原谅我的自负，嘟嘟嘟 嘟嘟 嘟嘟 嘟嘟
+没人能说没人可说，好难承受，otto的背后刻着一道孤独。嘟嘟嘟 嘟嘟 嘟嘟 嘟嘟
+闭上双眼，我又看见，当年德州的画面，天空是濛濛的雾。嘟嘟嘟 嘟嘟 嘟嘟 嘟嘟
+领队牵着小猴的手，轻轻走过，yg那安安静静的人事处。
+</textarea>
+    </div>
+    <script>
+        $(function() {
+            //document上只用绑定一次mouseup事件即可
+            $(document).mouseup(function(e) {
+                //去掉之前已有pop标签
+                $(document.body).find('.pop').remove();
+
+                //若触发事件的target为textarea进行文字区域选择
+                if (e.target.id == 'txtarea') {
+                    var that = e.target;
+                    //IE8及之前版本浏览器需要用到window.selection对象
+                    if (window.selection) {
+                        var txt = window.selection.createRange().text;
+                    } else {
+                        var txt = $(that)[0].value.substring($(that)[0].selectionStart, $(that)[0].selectionEnd);
+                    }
+                    //选择为空字符串则直接return
+                    txt = txt.trim();
+                    if (txt == '') {
+                        return;
+                    };
+                    //找到鼠标弹起时的坐标
+                    var x = e.clientX;
+                    var y = e.clientY;
+                    console.log(x, y);
+                    let span = document.createElement('span');
+                    $(span).html(txt);
+                    $(span).css({
+                        position: 'absolute',
+                        left: x + 15,
+                        top: y
+                    });
+                    $(span).addClass('pop');
+                    $(document.body).append(span);
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>
